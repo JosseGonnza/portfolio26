@@ -1,0 +1,352 @@
+---
+const columns = [
+  {
+    title: 'Backend',
+    note: 'Lo que más pesa',
+    tags: ['Java', 'Spring Boot', 'PostgreSQL', 'SQL', 'Spring Data JPA', 'JWT', 'REST APIs', 'Maven', 'Docker', 'JUnit'],
+  },
+  {
+    title: 'Frontend & Deploy',
+    note: 'Demostrado en producción',
+    tags: ['Astro', 'Tailwind CSS v4', 'TypeScript', 'Cloudflare Pages', 'GitHub Actions', 'CI/CD'],
+  },
+  {
+    title: 'Herramientas',
+    note: '',
+    tags: ['Git', 'GitHub', 'IntelliJ IDEA', 'Docker Desktop', 'Postman', 'Notion', 'Linux'],
+  },
+] as const;
+---
+
+<section id="stack">
+  <span class="section-num" aria-hidden="true">02</span>
+
+  <div class="stack-inner">
+    <!-- Cabecera -->
+    <div class="stack-header">
+      <p class="sec-eyebrow">
+        <span class="eyebrow-dot"></span>
+        Herramientas
+      </p>
+      <h2 class="stack-h2">
+        <span class="h2-line1">Tecnologías</span>
+        <span class="h2-line2">con las que trasteo.</span>
+      </h2>
+    </div>
+
+    <!-- Grid de columnas -->
+    <div class="stack-grid">
+      {columns.map((col) => (
+        <div class="stack-col">
+          <div class="col-header">
+            <h3 class="col-title">{col.title}</h3>
+            {col.note && <p class="col-note">{col.note}</p>}
+          </div>
+          <ul class="col-tags">
+            {col.tags.map((tag) => (
+              <li class="tag-item">
+                <span class="tag-dot" aria-hidden="true"></span>
+                {tag}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Nota final -->
+    <p class="stack-note">
+      Lo que uso en producción y lo que aprendo en el DAW — son la misma dirección.
+    </p>
+  </div>
+</section>
+
+<style>
+  #stack {
+    position: relative;
+    z-index: 5;
+    background: #242424;
+    width: 100vw;
+    flex-shrink: 0;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: clamp(2.5rem, 4.5vw, 5rem) clamp(1.5rem, 6vw, 6rem);
+  }
+
+  @media (max-width: 900px) {
+    #stack {
+      height: auto;
+      min-height: 100dvh;
+      overflow: visible;
+      padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem);
+    }
+  }
+
+  /* ── Número de fondo ─────────────────────────────────────────── */
+  .section-num {
+    position: absolute;
+    top: 50%;
+    right: -0.1em;
+    transform: translateY(-50%);
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(12rem, 28vw, 28rem);
+    line-height: 1;
+    color: #F3F4F6;
+    opacity: 0.025;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* ── Inner ───────────────────────────────────────────────────── */
+  .stack-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── Cabecera ────────────────────────────────────────────────── */
+  .stack-header {
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .stack-h2 {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.9;
+    gap: 0.15em;
+    margin: 0;
+  }
+
+  .h2-line1 {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5.5vw, 6rem);
+    color: #F3F4F6;
+    letter-spacing: -0.02em;
+    display: block;
+  }
+
+  .h2-line2 {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 2.8vw, 3rem);
+    color: #6B7280;
+    letter-spacing: -0.01em;
+    display: block;
+  }
+
+  /* ── Grid ────────────────────────────────────────────────────── */
+  .stack-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid #2E2E2E;
+  }
+
+  .stack-col {
+    padding: 2.5rem 2rem 2.5rem 0;
+    border-right: 1px solid #2E2E2E;
+  }
+
+  .stack-col:last-child {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .stack-col:not(:first-child) {
+    padding-left: 2rem;
+  }
+
+  /* ── Cabecera de columna ─────────────────────────────────────── */
+  .col-header {
+    margin-bottom: 1.75rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #2E2E2E;
+  }
+
+  .col-title {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #FF5733;
+    margin: 0 0 0.3rem;
+  }
+
+  .col-note {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: #4B5563;
+    margin: 0;
+  }
+
+  /* ── Tags ────────────────────────────────────────────────────── */
+  .col-tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .tag-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.85rem, 1.2vw, 1rem);
+    color: #9CA3AF;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid transparent;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  .tag-item:hover {
+    color: #F3F4F6;
+    border-bottom-color: #2E2E2E;
+  }
+
+  .tag-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #2E2E2E;
+    flex-shrink: 0;
+    transition: background 200ms ease;
+  }
+
+  .tag-item:hover .tag-dot {
+    background: #FF5733;
+  }
+
+  /* ── Nota final ──────────────────────────────────────────────── */
+  .stack-note {
+    margin-top: 3rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #4B5563;
+    border-top: 1px solid #2E2E2E;
+    padding-top: 1.5rem;
+    max-width: 60ch;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .stack-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .stack-col {
+      border-right: none;
+      border-bottom: 1px solid #2E2E2E;
+      padding: 2rem 0;
+    }
+
+    .stack-col:last-child {
+      border-bottom: none;
+    }
+
+    .stack-col:not(:first-child) {
+      padding-left: 0;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initStackAnimations() {
+    const header  = document.querySelector('.stack-header')  as HTMLElement;
+    const eyebrow = header.querySelector('.sec-eyebrow')     as HTMLElement;
+    const h2line1 = header.querySelector('.h2-line1')        as HTMLElement;
+    const h2line2 = header.querySelector('.h2-line2')        as HTMLElement;
+    const cols    = document.querySelectorAll<HTMLElement>('.stack-col');
+    const note    = document.querySelector('.stack-note')    as HTMLElement;
+
+    // ── Wipe derecha → izquierda: la sección entera entra como una cortina ──
+    // Mientras hace el wipe, la foto del hero aún está visible a la izquierda
+    gsap.fromTo('#stack',
+      { clipPath: 'inset(0% 0% 0% 100%)' },
+      {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#stack',
+          start: 'top 85%',
+          end: 'top 5%',
+          scrub: 0.9,
+        },
+      }
+    );
+
+    // ── Estados iniciales del contenido ─────────────────────────
+    gsap.set([eyebrow, h2line1, h2line2], { opacity: 0, y: 45 });
+    gsap.set(cols[0], { opacity: 0, y: 65 });  // Backend — el último (izquierda)
+    gsap.set(cols[1], { opacity: 0, y: 55 });  // Frontend
+    gsap.set(cols[2], { opacity: 0, y: 45 });  // Herramientas — el primero (derecha)
+    gsap.set(note, { opacity: 0, y: 20 });
+
+    // ── Cabecera ─────────────────────────────────────────────────
+    gsap.to(eyebrow, {
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: { trigger: '#stack', start: 'top 55%', end: 'top 20%', scrub: 0.4 },
+    });
+    gsap.to(h2line1, {
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: { trigger: '#stack', start: 'top 50%', end: 'top 15%', scrub: 0.4 },
+    });
+    gsap.to(h2line2, {
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: { trigger: '#stack', start: 'top 45%', end: 'top 10%', scrub: 0.4 },
+    });
+
+    // ── Columnas: de derecha a izquierda ─────────────────────────
+    gsap.to(cols[2], {  // Herramientas — primera en aparecer
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: { trigger: '.stack-grid', start: 'top 80%', end: 'top 40%', scrub: 0.45 },
+    });
+    gsap.to(cols[1], {  // Frontend & Deploy
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: { trigger: '.stack-grid', start: 'top 72%', end: 'top 32%', scrub: 0.45 },
+    });
+    gsap.to(cols[0], {  // Backend — la última
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: { trigger: '.stack-grid', start: 'top 64%', end: 'top 24%', scrub: 0.45 },
+    });
+
+    // ── Tags: stagger dentro de cada columna ─────────────────────
+    cols.forEach((col) => {
+      const colTags = col.querySelectorAll<HTMLElement>('.tag-item');
+      gsap.set(colTags, { opacity: 0, y: 12 });
+      gsap.to(colTags, {
+        opacity: 1, y: 0, ease: 'none',
+        stagger: 0.04,
+        scrollTrigger: {
+          trigger: col,
+          start: 'top 70%',
+          end: 'bottom 50%',
+          scrub: 0.5,
+        },
+      });
+    });
+
+    // ── Nota final ────────────────────────────────────────────────
+    gsap.to(note, {
+      opacity: 1, y: 0, ease: 'none',
+      scrollTrigger: { trigger: note, start: 'top 88%', end: 'top 62%', scrub: 0.4 },
+    });
+  }
+
+  document.addEventListener('preloader-done', initStackAnimations, { once: true });
+</script>

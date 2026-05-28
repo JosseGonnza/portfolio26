@@ -1,0 +1,387 @@
+<section id="hero">
+  <!-- Aurora fondo -->
+  <div class="aurora" aria-hidden="true">
+    <div class="aurora-blob aurora-blob--1"></div>
+    <div class="aurora-blob aurora-blob--2"></div>
+    <div class="aurora-blob aurora-blob--3"></div>
+  </div>
+
+  <div class="hero-inner">
+    <!-- Foto -->
+    <div class="hero-photo-wrap" data-hero="photo">
+      <div class="hero-photo-float">
+        <img
+          src="/foto-personal.png"
+          alt="Jose González"
+          class="hero-photo"
+          width="480"
+          height="480"
+          loading="eager"
+        />
+        <div class="hero-photo-glow" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- Texto -->
+    <div class="hero-content">
+      <p class="hero-eyebrow" data-hero="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Backend Developer
+      </p>
+
+      <h1 class="hero-h1">
+        <span class="hero-h1-line1" data-hero="h1-1">JOSE</span>
+        <span class="hero-h1-line2" data-hero="h1-2">González Quevedo</span>
+      </h1>
+
+      <p class="hero-desc" data-hero="desc">
+        Construyo APIs con criterio de producto. Más de diez años en hostelería me
+        enseñaron a entregar bajo presión. Ahora lo hago en código.
+      </p>
+
+      <div class="hero-chips" data-hero="chips">
+        <span class="chip">Java</span>
+        <span class="chip">Spring Boot</span>
+        <span class="chip">SQL</span>
+        <span class="chip">Docker</span>
+        <span class="chip">Astro</span>
+      </div>
+
+      <div class="hero-ctas" data-hero="ctas">
+        <a href="#proyectos" class="btn-primary">Ver proyectos ↓</a>
+        <a href="#contacto" class="btn-ghost">Hablemos →</a>
+      </div>
+
+      <p class="hero-badge" data-hero="badge">
+        <span class="eyebrow-dot"></span>
+        Disponible para prácticas — marzo 2027
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hero {
+    position: relative;
+    z-index: 10;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    overflow: visible;
+    padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 6vw, 6rem);
+  }
+
+  /* ── Aurora ─────────────────────────────────────────────────── */
+  .aurora {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(255, 87, 51, 0.07), transparent 70%);
+    animation: aurora-drift linear infinite;
+  }
+
+  .aurora-blob--1 {
+    width: 60vw;
+    height: 60vw;
+    top: -20%;
+    right: -10%;
+    animation-duration: 22s;
+    animation-delay: 0s;
+  }
+
+  .aurora-blob--2 {
+    width: 40vw;
+    height: 40vw;
+    bottom: -10%;
+    left: 5%;
+    animation-duration: 18s;
+    animation-delay: -7s;
+  }
+
+  .aurora-blob--3 {
+    width: 30vw;
+    height: 30vw;
+    top: 40%;
+    left: 40%;
+    animation-duration: 26s;
+    animation-delay: -13s;
+    background: radial-gradient(ellipse, rgba(255, 87, 51, 0.04), transparent 70%);
+  }
+
+  @keyframes aurora-drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    33%  { transform: translate(3%, -4%) scale(1.05); }
+    66%  { transform: translate(-2%, 3%) scale(0.97); }
+    100% { transform: translate(0, 0) scale(1); }
+  }
+
+  /* ── Layout hero ─────────────────────────────────────────────── */
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  /* ── Foto ────────────────────────────────────────────────────── */
+  .hero-photo-wrap {
+    position: relative;
+    justify-self: center;
+    z-index: 20;
+  }
+
+  .hero-photo-float {
+    position: relative;
+    animation: float 5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    40%       { transform: translateY(-14px) rotate(0.4deg); }
+    70%       { transform: translateY(-8px) rotate(-0.2deg); }
+  }
+
+  .hero-photo {
+    display: block;
+    width: clamp(220px, 30vw, 420px);
+    height: clamp(220px, 30vw, 420px);
+    object-fit: cover;
+    border-radius: 4px;
+    position: relative;
+    z-index: 1;
+    filter: saturate(1.1) contrast(1.05);
+  }
+
+  .hero-photo-glow {
+    position: absolute;
+    inset: -6px;
+    border-radius: 8px;
+    background: transparent;
+    box-shadow:
+      0 0 40px rgba(255, 87, 51, 0.25),
+      0 0 80px rgba(255, 87, 51, 0.12);
+    z-index: 0;
+  }
+
+  /* ── Texto ───────────────────────────────────────────────────── */
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #6B7280;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-h1 {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 1.75rem;
+    line-height: 0.92;
+  }
+
+  .hero-h1-line1 {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.8rem, 7vw, 7.5rem);
+    color: #F3F4F6;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-h1-line2 {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.2rem, 3vw, 3.2rem);
+    color: #6B7280;
+    letter-spacing: -0.01em;
+    margin-top: 0.3em;
+  }
+
+  .hero-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+    color: #9CA3AF;
+    line-height: 1.7;
+    max-width: 46ch;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chip {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6B7280;
+    border: 1px solid #2E2E2E;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+
+  .chip:hover {
+    color: #FF5733;
+    border-color: rgba(255, 87, 51, 0.4);
+  }
+
+  .hero-ctas {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .hero-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #FF5733;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    #hero {
+      padding-top: 7rem;
+    }
+
+    .hero-inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero-photo-wrap {
+      order: -1;
+    }
+
+    .hero-eyebrow,
+    .hero-chips,
+    .hero-ctas,
+    .hero-badge {
+      justify-content: center;
+    }
+
+    .hero-desc {
+      margin-inline: auto;
+    }
+
+    .hero-h1-line1,
+    .hero-h1-line2 {
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('preloader-done', () => {
+    const photo   = document.querySelector('[data-hero="photo"]')   as HTMLElement;
+    const eyebrow = document.querySelector('[data-hero="eyebrow"]') as HTMLElement;
+    const h1_1    = document.querySelector('[data-hero="h1-1"]')    as HTMLElement;
+    const h1_2    = document.querySelector('[data-hero="h1-2"]')    as HTMLElement;
+    const desc    = document.querySelector('[data-hero="desc"]')    as HTMLElement;
+    const chips   = document.querySelector('[data-hero="chips"]')   as HTMLElement;
+    const ctas    = document.querySelector('[data-hero="ctas"]')    as HTMLElement;
+    const badge   = document.querySelector('[data-hero="badge"]')   as HTMLElement;
+
+    // ── Entrada — solo cuando termina se montan los scroll triggers ──
+    gsap.set([eyebrow, h1_1, h1_2, desc, chips, ctas, badge], { opacity: 0, y: 24 });
+    gsap.set(photo, { opacity: 0, scale: 0.95 });
+
+    gsap.timeline({
+      defaults: { ease: 'power3.out' },
+      onComplete: mountScrollAnimations,
+    })
+    .to(photo,   { opacity: 1, scale: 1, duration: 0.9 }, 0.05)
+    .to(eyebrow, { opacity: 1, y: 0, duration: 0.6 }, 0.0)
+    .to(h1_1,    { opacity: 1, y: 0, duration: 0.6 }, 0.15)
+    .to(h1_2,    { opacity: 1, y: 0, duration: 0.6 }, 0.25)
+    .to(desc,    { opacity: 1, y: 0, duration: 0.6 }, 0.4)
+    .to(chips,   { opacity: 1, y: 0, duration: 0.6 }, 0.45)
+    .to(ctas,    { opacity: 1, y: 0, duration: 0.6 }, 0.55)
+    .to(badge,   { opacity: 1, y: 0, duration: 0.6 }, 0.65);
+
+    function mountScrollAnimations() {
+      // En este punto todos los elementos están en su estado final visible.
+      // fromTo garantiza que los "from" values sean exactamente ese estado.
+
+      const st = (start: string, end: string) => ({
+        trigger: '#hero', start, end, scrub: 0.35,
+      });
+
+      gsap.fromTo(eyebrow,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -90, x: 0, rotation: -6, ease: 'none', scrollTrigger: st('top top', '45% top') });
+
+      gsap.fromTo(h1_1,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -220, x: -25, rotation: -16, ease: 'none', scrollTrigger: st('top top', '50% top') });
+
+      gsap.fromTo(h1_2,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -110, x: 30, rotation: 9, ease: 'none', scrollTrigger: st('3% top', '55% top') });
+
+      gsap.fromTo(desc,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -150, x: 18, rotation: 5, ease: 'none', scrollTrigger: st('8% top', '58% top') });
+
+      gsap.fromTo(chips,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -180, x: -15, rotation: -11, ease: 'none', scrollTrigger: st('5% top', '52% top') });
+
+      gsap.fromTo(ctas,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -120, x: 35, rotation: 13, ease: 'none', scrollTrigger: st('12% top', '65% top') });
+
+      gsap.fromTo(badge,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -75, x: -10, rotation: -4, ease: 'none', scrollTrigger: st('18% top', '70% top') });
+
+      // Foto sale un poco después que el texto, más lenta y con menos rotación
+      gsap.fromTo(photo,
+        { opacity: 1, y: 0, x: 0, rotation: 0 },
+        { opacity: 0, y: -90, x: -40, rotation: -8, ease: 'none',
+          scrollTrigger: st('15% top', '80% top'),
+        });
+    }
+  }, { once: true });
+</script>

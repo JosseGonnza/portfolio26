@@ -1,0 +1,470 @@
+---
+const proyectos = [
+  {
+    tipo: 'Empresa · Web',
+    estado: 'Live' as const,
+    titulo: 'JotaGe Studio',
+    subtitulo: 'Mi empresa de desarrollo web',
+    desc: 'Webs y cartas digitales para bares, sidrerías y restaurantes en Asturias. Modelo concierge: el cliente pide cambios por WhatsApp, yo los publico en menos de 24h.',
+    stack: ['Astro', 'Tailwind', 'Cloudflare Pages', 'TypeScript'],
+    ctas: [{ label: 'Ver web ↗', href: 'https://jotagestudio.es', primary: true }],
+    rotation: -2.2,
+    starred: false,
+  },
+  {
+    tipo: 'Producto · Carta Digital',
+    estado: 'Live' as const,
+    titulo: 'Cartas Digitales',
+    subtitulo: 'El producto de JotaGe Studio',
+    desc: 'Cartas digitales escaneables desde QR. Sin app, sin descarga. El cliente escanea y ve la carta en tiempo real. Dos clientes activos.',
+    stack: ['Astro', 'Tailwind', 'Cloudflare Pages'],
+    ctas: [{ label: 'Ver demo ↗', href: 'https://jgmenu.es', primary: true }],
+    rotation: 1.8,
+    starred: false,
+  },
+  {
+    tipo: 'API REST · Java',
+    estado: 'En construcción' as const,
+    titulo: 'API Cartas Digitales',
+    subtitulo: 'La versión dinámica del producto',
+    desc: 'API REST que gestiona restaurantes, cartas y platos en una BD relacional. CRUD completo, JWT en escritura, Swagger UI en producción.',
+    stack: ['Java', 'Spring Boot', 'PostgreSQL', 'JWT', 'Railway'],
+    ctas: [{ label: 'Ver repo →', href: 'https://github.com/JosseGonnza', primary: false }],
+    rotation: -0.8,
+    starred: true,
+  },
+  {
+    tipo: 'Java · Spring Boot',
+    estado: 'Repo' as const,
+    titulo: 'Kitchen Pantry',
+    subtitulo: 'Control de inventario de cocina',
+    desc: 'Gestión de inventario para cocinas profesionales. Registra productos, entradas y salidas de stock, y avisa cuando algo está por agotarse.',
+    stack: ['Java', 'Spring Boot', 'Maven', 'JUnit'],
+    ctas: [{ label: 'Ver repo →', href: 'https://github.com/JosseGonnza/kitchen-pantry', primary: false }],
+    rotation: 2.6,
+    starred: false,
+  },
+  {
+    tipo: 'Java · RPG',
+    estado: 'Repo' as const,
+    titulo: 'Life Leveling',
+    subtitulo: 'Gamifica tu existencia',
+    desc: 'Un RPG de supervivencia aplicado a la vida real. Dormir mal resta vida, programar da experiencia, gastar mal reduce inversión futura.',
+    stack: ['Java'],
+    ctas: [{ label: 'Ver repo →', href: 'https://github.com/JosseGonnza/life-leveling', primary: false }],
+    rotation: -2.8,
+    starred: false,
+  },
+  {
+    tipo: 'Aprendizaje · GitHub',
+    estado: 'Repo' as const,
+    titulo: 'Katas & Ejercicios',
+    subtitulo: 'El proceso, en abierto',
+    desc: 'Resolución de katas y ejercicios de algoritmos, estructuras de datos y lógica. El trabajo diario de quien no deja de aprender.',
+    stack: ['Java', 'GitHub'],
+    ctas: [{ label: 'Ver GitHub ↗', href: 'https://github.com/JosseGonnza', primary: false }],
+    rotation: 1.2,
+    starred: false,
+  },
+] as const;
+
+const estadoConfig = {
+  'Live':            { color: '#22c55e', dot: '●' },
+  'En construcción': { color: '#FF5733', dot: '◐' },
+  'Repo':            { color: '#6B7280', dot: '◫' },
+} satisfies Record<string, { color: string; dot: string }>;
+---
+
+<section id="proyectos">
+  <div class="proyectos-track">
+
+    <!-- ── Panel título — entra primero desde la derecha ─────── -->
+    <div class="title-panel">
+      <span class="title-num" aria-hidden="true">03</span>
+
+      <div class="title-content">
+        <p class="sec-eyebrow">
+          <span class="eyebrow-dot"></span>
+          Trabajo real
+        </p>
+        <h2 class="proyectos-h2">
+          <span class="h2-lo">LO</span>
+          <span class="h2-que">QUE</span>
+          <span class="h2-sub">he construido.</span>
+        </h2>
+      </div>
+
+      <div class="title-hint" aria-hidden="true">
+        <span class="hint-track">
+          <span class="hint-thumb"></span>
+        </span>
+        <p>scroll</p>
+        <span class="hint-arrow">→</span>
+      </div>
+    </div>
+
+    <!-- ── Tarjetas de proyectos ─────────────────────────────── -->
+    {proyectos.map((p) => {
+      const estado = estadoConfig[p.estado];
+      return (
+        <article
+          class:list={['proyecto-card', p.starred && 'proyecto-card--starred']}
+          style={`--rotation: ${p.rotation}deg`}
+          data-rotation={p.rotation}
+          data-tipo={p.tipo}
+          data-estado={p.estado}
+          data-estado-color={estado.color}
+          data-titulo={p.titulo}
+          data-subtitulo={p.subtitulo}
+          data-desc={p.desc}
+          data-stack={JSON.stringify([...p.stack])}
+          data-ctas={JSON.stringify([...p.ctas])}
+          tabindex="0"
+          role="button"
+          aria-label={`Ver detalles de ${p.titulo}`}
+        >
+          <div class="card-tape" aria-hidden="true"></div>
+
+          <div class="card-meta">
+            <span class="card-tipo">{p.tipo}</span>
+            <span class="card-estado" style={`color: ${estado.color}`}>
+              {estado.dot} {p.estado}
+            </span>
+          </div>
+
+          <h3 class="card-titulo">{p.titulo}</h3>
+          <p class="card-subtitulo">{p.subtitulo}</p>
+          <p class="card-desc">{p.desc}</p>
+
+          <div class="card-stack">
+            {p.stack.map((t) => <span class="card-chip">{t}</span>)}
+          </div>
+
+          <div class="card-ctas">
+            {p.ctas.map((cta) => (
+              <a
+                href={cta.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={cta.primary ? 'btn-primary' : 'btn-ghost'}
+              >
+                {cta.label}
+              </a>
+            ))}
+          </div>
+        </article>
+      );
+    })}
+
+  </div>
+</section>
+
+<style>
+  /* #proyectos es un item flex dentro de #h-scene-track */
+  #proyectos {
+    position: relative;
+    flex-shrink: 0;
+    height: 100%;
+    background: #1A1A1A;
+    display: flex;
+  }
+
+  /* El track es solo layout — el scroll lo maneja #h-scene-track */
+  .proyectos-track {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: clamp(2rem, 3vw, 3.5rem);
+    padding-right: clamp(1.5rem, 6vw, 6rem);
+  }
+
+  .proyectos-track:active { cursor: grabbing; }
+
+  /* ── Panel título ────────────────────────────────────────────── */
+  .title-panel {
+    flex-shrink: 0;
+    /* ~40vw → cuando la 1ª card snappe al centro, el título sigue visible a la izquierda */
+    width: clamp(260px, 40vw, 520px);
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 4vw, 4rem);
+    overflow: hidden;
+    background: #1A1A1A;
+  }
+
+  .title-num {
+    position: absolute;
+    top: clamp(1rem, 2.5vw, 2rem);
+    left: clamp(1rem, 3vw, 3rem);
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 4rem);
+    line-height: 1;
+    color: #F3F4F6;
+    opacity: 0.07;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .title-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .proyectos-h2 {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.88;
+    gap: 0.05em;
+    margin: 0;
+  }
+
+  .h2-lo,
+  .h2-que {
+    display: block;
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    color: #F3F4F6;
+    letter-spacing: -0.03em;
+  }
+
+  .h2-sub {
+    display: block;
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.85rem, 2vw, 2.2rem);
+    color: #6B7280;
+    letter-spacing: -0.01em;
+    margin-top: 0.25em;
+  }
+
+  .title-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: clamp(1.5rem, 6vw, 6rem);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0.4;
+    z-index: 2;
+  }
+
+  .title-hint p {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.45rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #6B7280;
+    margin: 0;
+  }
+
+  .hint-arrow {
+    font-size: 0.8rem;
+    color: #FF5733;
+  }
+
+  .hint-track {
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: #2E2E2E;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hint-thumb {
+    display: block;
+    width: 12px;
+    height: 100%;
+    background: #FF5733;
+    border-radius: 2px;
+    animation: hint-move 2s ease-in-out infinite;
+  }
+
+  @keyframes hint-move {
+    0%, 100% { transform: translateX(0); }
+    50%       { transform: translateX(24px); }
+  }
+
+  /* ── Tarjetas ─────────────────────────────────────────────────── */
+  .proyecto-card {
+    flex-shrink: 0;
+    width: clamp(340px, 30vw, 460px);
+    background: #1A1A1A;
+    border: 1px solid #2E2E2E;
+    border-radius: 6px;
+    padding: clamp(1.25rem, 2vw, 1.75rem);
+    position: relative;
+    transform: rotate(var(--rotation));
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.5),
+      0 8px 20px rgba(0, 0, 0, 0.35),
+      0 30px 55px rgba(255, 87, 51, 0.18),
+      0 10px 22px rgba(255, 87, 51, 0.10);
+    transition: box-shadow 0.4s ease, z-index 0s;
+    will-change: transform;
+    cursor: pointer;
+  }
+
+  .proyecto-card:nth-child(even) { background: #1E1E1E; }
+
+  .proyecto-card:hover {
+    box-shadow:
+      0 35px 75px rgba(0, 0, 0, 0.65),
+      0 12px 30px rgba(0, 0, 0, 0.45),
+      0 40px 80px rgba(255, 87, 51, 0.32),
+      0 14px 32px rgba(255, 87, 51, 0.20);
+    z-index: 20;
+  }
+
+  .proyecto-card--starred {
+    border-color: rgba(255, 87, 51, 0.35);
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.5),
+      0 8px 20px rgba(0, 0, 0, 0.35),
+      0 30px 55px rgba(255, 87, 51, 0.26),
+      0 10px 22px rgba(255, 87, 51, 0.16),
+      0 0 0 1px rgba(255, 87, 51, 0.15);
+  }
+
+  /* Cinta adhesiva */
+  .card-tape {
+    position: absolute;
+    top: -13px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-1.5deg);
+    width: 68px;
+    height: 20px;
+    background: rgba(243, 244, 246, 0.1);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  .card-tape::after {
+    content: '';
+    position: absolute;
+    inset: 2px 4px;
+    background: rgba(243, 244, 246, 0.04);
+    border-radius: 1px;
+  }
+
+  /* Contenido */
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .card-tipo {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.48rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #4B5563;
+    line-height: 1.4;
+  }
+
+  .card-estado {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.44rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .card-titulo {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    color: #F3F4F6;
+    margin: 0 0 0.35rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .card-subtitulo {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.78rem;
+    color: #6B7280;
+    margin: 0 0 0.9rem;
+  }
+
+  .card-desc {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.82rem;
+    color: #9CA3AF;
+    line-height: 1.65;
+    margin: 0 0 1.1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-chip {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.44rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6B7280;
+    border: 1px solid #2E2E2E;
+    padding: 3px 7px;
+    border-radius: 3px;
+  }
+
+  .card-ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    #proyectos {
+      height: auto;
+      min-height: 100dvh;
+    }
+
+    .proyectos-track {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      align-items: flex-start;
+      padding: 2rem 1.5rem;
+      scrollbar-width: none;
+    }
+
+    .proyectos-track::-webkit-scrollbar { display: none; }
+
+    .title-panel {
+      width: 90vw;
+      height: auto;
+      min-height: 80dvh;
+      justify-content: flex-end;
+      padding-bottom: 3rem;
+    }
+
+    .proyecto-card { width: 82vw; }
+  }
+</style>
+

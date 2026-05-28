@@ -52,6 +52,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     <slot />
 
     <script>
+      import Lenis from 'lenis';
+      import { gsap } from 'gsap';
+      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // data-reveal sencillo (elementos sin ScrollTrigger propio)
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -63,10 +70,19 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
         },
         { threshold: 0.1 }
       );
-
       document
         .querySelectorAll('[data-reveal], [data-reveal-stagger] > *')
         .forEach((el) => observer.observe(el));
+
+      // Lenis + ScrollTrigger — arrancan juntos tras el preloader
+      document.addEventListener('preloader-done', () => {
+        const lenis = new Lenis({ lerp: 0.07, smoothWheel: true });
+
+        // Sincronizar Lenis con ScrollTrigger
+        lenis.on('scroll', () => ScrollTrigger.update());
+        gsap.ticker.add((time) => lenis.raf(time * 1000));
+        gsap.ticker.lagSmoothing(0);
+      }, { once: true });
     </script>
   </body>
 </html>
