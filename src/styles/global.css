@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* ── Fuentes self-hosted ─────────────────────────────────────── */
+@import "@fontsource/syncopate/400.css";
+@import "@fontsource/syncopate/700.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+
+/* ── Tokens de diseño JotaGe Studio ─────────────────────────── */
+@theme {
+  --color-jotage-dark:    #1A1A1A;
+  --color-jotage-surface: #242424;
+  --color-jotage-border:  #2E2E2E;
+  --color-jotage-orange:  #FF5733;
+  --color-jotage-light:   #F3F4F6;
+
+  --font-syncopate: 'Syncopate', sans-serif;
+  --font-inter:     'Inter', sans-serif;
+}
+
+/* ── Reset base ──────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #1A1A1A;
+  color: #F3F4F6;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Utilidades compartidas ──────────────────────────────────── */
+.sec-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Syncopate', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6B7280;
+  margin-bottom: 1.5rem;
+}
+
+.eyebrow-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FF5733;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(255, 87, 51, 0.6);
+}
+
+/* ── Botones compartidos ─────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #fff;
+  background: #FF5733;
+  padding: 14px 28px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: opacity 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 20px rgba(255, 87, 51, 0.4);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Syncopate', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #4B5563;
+  padding: 10px 0;
+  transition: color 250ms ease;
+}
+
+.btn-ghost:hover { color: #F3F4F6; }
+
+/* ── Scroll reveal ───────────────────────────────────────────── */
+[data-reveal],
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+[data-reveal].is-visible,
+[data-reveal-stagger] > *.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], [data-reveal-stagger] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
