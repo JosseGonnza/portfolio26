@@ -276,24 +276,25 @@ import Footer from '../components/Footer.astro';
       const tH2que = titlePanel.querySelector<HTMLElement>('.h2-que')!;
       const tH2sub = titlePanel.querySelector<HTMLElement>('.h2-sub')!;
 
-      gsap.set([tH2lo, tH2que, tH2sub], { opacity: 0, y: 30 });
       new IntersectionObserver((entries, obs) => {
         if (!entries[0].isIntersecting) return;
-        gsap.to([tH2lo, tH2que, tH2sub], { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'expo.out' });
+        gsap.fromTo([tH2lo, tH2que, tH2sub],
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'expo.out' }
+        );
         obs.disconnect();
-      }, { threshold: 0.15 }).observe(titlePanel);
+      }, { threshold: 0 }).observe(titlePanel);
 
       cards.forEach(card => {
-        // Partimos de invisible sin tocar transforms (el CSS ya pone rotation:0 en mobile)
-        card.style.opacity = '0';
+        // Sin opacity:0 inicial — si el IO no dispara, la card sigue visible
         new IntersectionObserver((entries, obs) => {
           if (!entries[0].isIntersecting) return;
           gsap.fromTo(card,
             { opacity: 0, y: 35 },
-            { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', clearProps: 'transform' }
+            { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', clearProps: 'all' }
           );
           obs.disconnect();
-        }, { threshold: 0.1 }).observe(card);
+        }, { threshold: 0 }).observe(card);
       });
       return;
     }
