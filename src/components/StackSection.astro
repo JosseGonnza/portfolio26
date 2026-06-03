@@ -271,11 +271,11 @@ const columns = [
     const eyebrow = header.querySelector('.sec-eyebrow')     as HTMLElement;
     const h2line1 = header.querySelector('.h2-line1')        as HTMLElement;
     const h2line2 = header.querySelector('.h2-line2')        as HTMLElement;
-    const cols    = document.querySelectorAll<HTMLElement>('.stack-col');
+    const cols    = Array.from(document.querySelectorAll<HTMLElement>('.stack-col'));
     const note    = document.querySelector('.stack-note')    as HTMLElement;
+    const allTags = Array.from(document.querySelectorAll<HTMLElement>('.tag-item'));
 
     // ── Wipe derecha → izquierda: la sección entera entra como una cortina ──
-    // Mientras hace el wipe, la foto del hero aún está visible a la izquierda
     gsap.fromTo('#stack',
       { clipPath: 'inset(0% 0% 0% 100%)' },
       {
@@ -290,61 +290,30 @@ const columns = [
       }
     );
 
-    // ── Estados iniciales del contenido ─────────────────────────
-    gsap.set([eyebrow, h2line1, h2line2], { opacity: 0, y: 45 });
-    gsap.set(cols[0], { opacity: 0, y: 65 });  // Backend — el último (izquierda)
-    gsap.set(cols[1], { opacity: 0, y: 55 });  // Frontend
-    gsap.set(cols[2], { opacity: 0, y: 45 });  // Herramientas — el primero (derecha)
-    gsap.set(note, { opacity: 0, y: 20 });
+    // ── Estados iniciales — desplazados a la derecha ─────────────
+    gsap.set([eyebrow, h2line1, h2line2], { opacity: 0, x: 60 });
+    gsap.set(cols, { opacity: 0, x: 80 });
+    gsap.set(note, { opacity: 0, x: 40 });
+    gsap.set(allTags, { opacity: 0 });
 
-    // ── Cabecera ─────────────────────────────────────────────────
-    gsap.to(eyebrow, {
-      opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: '#stack', start: 'top 55%', end: 'top 20%', scrub: 0.4 },
-    });
-    gsap.to(h2line1, {
-      opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: '#stack', start: 'top 50%', end: 'top 15%', scrub: 0.4 },
-    });
-    gsap.to(h2line2, {
-      opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: '#stack', start: 'top 45%', end: 'top 10%', scrub: 0.4 },
-    });
+    // ── Timeline de revelación horizontal ────────────────────────
+    const tl = gsap.timeline({ paused: true });
 
-    // ── Columnas: de derecha a izquierda ─────────────────────────
-    gsap.to(cols[2], {  // Herramientas — primera en aparecer
-      opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: '.stack-grid', start: 'top 80%', end: 'top 40%', scrub: 0.45 },
-    });
-    gsap.to(cols[1], {  // Frontend & Deploy
-      opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: '.stack-grid', start: 'top 72%', end: 'top 32%', scrub: 0.45 },
-    });
-    gsap.to(cols[0], {  // Backend — la última
-      opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: '.stack-grid', start: 'top 64%', end: 'top 24%', scrub: 0.45 },
-    });
+    tl.to(eyebrow, { opacity: 1, x: 0, duration: 0.45, ease: 'power3.out' })
+      .to(h2line1,  { opacity: 1, x: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.25')
+      .to(h2line2,  { opacity: 1, x: 0, duration: 0.45, ease: 'power3.out' }, '-=0.3')
+      .to(cols[2],  { opacity: 1, x: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.1')
+      .to(cols[1],  { opacity: 1, x: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.38')
+      .to(cols[0],  { opacity: 1, x: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.38')
+      .to(allTags,  { opacity: 1, duration: 0.4, stagger: 0.02, ease: 'power2.out' }, '-=0.25')
+      .to(note,     { opacity: 1, x: 0, duration: 0.4,  ease: 'power2.out' }, '-=0.5');
 
-    // ── Tags: stagger dentro de cada columna ─────────────────────
-    cols.forEach((col) => {
-      const colTags = col.querySelectorAll<HTMLElement>('.tag-item');
-      gsap.set(colTags, { opacity: 0, y: 12 });
-      gsap.to(colTags, {
-        opacity: 1, y: 0, ease: 'none',
-        stagger: 0.04,
-        scrollTrigger: {
-          trigger: col,
-          start: 'top 70%',
-          end: 'bottom 50%',
-          scrub: 0.5,
-        },
-      });
-    });
-
-    // ── Nota final ────────────────────────────────────────────────
-    gsap.to(note, {
-      opacity: 1, y: 0, ease: 'none',
-      scrollTrigger: { trigger: note, start: 'top 88%', end: 'top 62%', scrub: 0.4 },
+    // ── Disparar cuando h-scene se pina (inicio del scroll horizontal) ──
+    ScrollTrigger.create({
+      trigger: '#h-scene',
+      start: 'top top',
+      onEnter: () => tl.play(),
+      toggleActions: 'play none none none',
     });
   }
 

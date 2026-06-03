@@ -211,13 +211,6 @@ import ProyectosSection from '../components/ProyectosSection.astro';
   document.addEventListener('preloader-done', () => {
     const track = document.getElementById('h-scene-track') as HTMLElement;
     const cards = Array.from(track.querySelectorAll<HTMLElement>('.proyecto-card'));
-    const vcx   = window.innerWidth / 2;
-
-    // Posiciones iniciales (track en x:0)
-    const initCenters = cards.map(card => {
-      const r = card.getBoundingClientRect();
-      return r.left + r.width / 2;
-    });
 
     // GSAP gestiona los transforms desde el inicio
     cards.forEach(card => {
@@ -254,12 +247,6 @@ import ProyectosSection from '../components/ProyectosSection.astro';
       });
     });
 
-    // ── Snap points ──────────────────────────────────────────────
-    const totalScroll = track.scrollWidth - window.innerWidth;
-    const snapPoints  = initCenters
-      .map(cx => (cx - vcx) / totalScroll)
-      .filter(p => p >= 0 && p <= 1);
-
     // ── ScrollTrigger horizontal ─────────────────────────────────
     gsap.to(track, {
       x: () => -(track.scrollWidth - window.innerWidth),
@@ -271,12 +258,6 @@ import ProyectosSection from '../components/ProyectosSection.astro';
         start: 'top top',
         end: () => `+=${track.scrollWidth - window.innerWidth}`,
         invalidateOnRefresh: true,
-        snap: {
-          snapTo: snapPoints,
-          duration: { min: 0.25, max: 0.65 },
-          delay: 0.05,
-          ease: 'power3.out',
-        },
       },
     });
 
