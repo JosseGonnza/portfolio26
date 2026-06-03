@@ -10,7 +10,7 @@ interface Props {
 }
 
 const {
-  title = "Jose González — Backend Developer",
+  title = "Jose González | Backend Developer",
   description = "Desarrollador backend con empresa propia en producción. Java · Spring Boot · PostgreSQL · Docker. Disponible para prácticas (FCT) en octubre 2026. Fundador de JotaGe Studio.",
   ogImage = "https://dev.jotagestudio.es/og-image.webp",
 } = Astro.props;
@@ -40,7 +40,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     <meta property="og:image:type"  content="image/webp" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt"   content="Jose González — Backend Developer Portfolio" />
+    <meta property="og:image:alt"   content="Jose González | Backend Developer Portfolio" />
     <meta property="og:locale"      content="es_ES" />
     <meta property="og:site_name"   content="Jose González · Dev" />
 
@@ -49,10 +49,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image"       content={ogImage} />
-    <meta name="twitter:image:alt"   content="Jose González — Backend Developer Portfolio" />
+    <meta name="twitter:image:alt"   content="Jose González | Backend Developer Portfolio" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#1A1A1A" />
+
+    <!-- Umami Analytics -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="b5afd140-1763-44f3-af1c-bdbe23a7229b"></script>
   </head>
 
   <body>
