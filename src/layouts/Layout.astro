@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import NavDots from '../components/NavDots.astro';
 
 interface Props {
   title?: string;
@@ -49,6 +50,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
   </head>
 
   <body>
+    <NavDots />
     <slot />
 
     <script>
@@ -77,6 +79,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
       // Lenis + ScrollTrigger — arrancan juntos tras el preloader
       document.addEventListener('preloader-done', () => {
         const lenis = new Lenis({ lerp: 0.07, smoothWheel: true });
+        (window as any).__lenis = lenis;
 
         // Sincronizar Lenis con ScrollTrigger
         lenis.on('scroll', () => ScrollTrigger.update());

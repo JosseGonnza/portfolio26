@@ -1,0 +1,167 @@
+---
+const sections = [
+  { id: 'hero',        label: 'Inicio' },
+  { id: 'h-scene',    label: 'Stack · Proyectos' },
+  { id: 'trayectoria', label: 'Trayectoria' },
+  { id: 'contacto',   label: 'Contacto' },
+];
+---
+
+<div class="nav-vignette" aria-hidden="true"></div>
+<nav id="nav-dots" aria-label="Navegación de secciones">
+  {sections.map((s) => (
+    <button
+      class="dot-item"
+      data-target={s.id}
+      aria-label={`Ir a ${s.label}`}
+      type="button"
+    >
+      <span class="dot-label">{s.label}</span>
+      <span class="dot" aria-hidden="true"></span>
+    </button>
+  ))}
+</nav>
+
+<style>
+  .nav-vignette {
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 220px;
+    background: radial-gradient(ellipse 100% 60% at 100% 50%, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  #nav-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    pointer-events: auto;
+  }
+
+  .dot-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    justify-content: flex-end;
+  }
+
+  /* Label — oculta por defecto, aparece al hover */
+  .dot-label {
+    font-family: 'Syncopate', sans-serif;
+    font-size: 0.42rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6B7280;
+    opacity: 0;
+    transform: translateX(6px);
+    transition: opacity 250ms ease, transform 250ms ease;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .dot-item:hover .dot-label,
+  .dot-item.is-active .dot-label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .dot-item.is-active .dot-label {
+    color: #FF5733;
+  }
+
+  /* Dot */
+  .dot {
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 1.5px solid #4B5563;
+    background: transparent;
+    transition: border-color 300ms ease, background 300ms ease, transform 300ms ease;
+    flex-shrink: 0;
+  }
+
+  .dot-item:hover .dot {
+    border-color: #9CA3AF;
+  }
+
+  .dot-item.is-active .dot {
+    background: #FF5733;
+    border-color: #FF5733;
+    transform: scale(1.35);
+  }
+
+  /* Oculto en móvil */
+  @media (max-width: 768px) {
+    #nav-dots,
+    .nav-vignette { display: none; }
+  }
+</style>
+
+<script>
+  function initNavDots() {
+    const dotItems = Array.from(document.querySelectorAll<HTMLElement>('.dot-item'));
+
+    function setActive(id: string) {
+      dotItems.forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.target === id);
+      });
+    }
+
+    // IntersectionObserver — activa el dot de la sección más visible
+    const observers: IntersectionObserver[] = [];
+    const visibility: Record<string, number> = {};
+
+    dotItems.forEach(btn => {
+      const id = btn.dataset.target!;
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          visibility[id] = entry.intersectionRatio;
+          // Activa la sección con mayor ratio de visibilidad
+          const active = Object.entries(visibility).sort((a, b) => b[1] - a[1])[0];
+          if (active && active[1] > 0) setActive(active[0]);
+        },
+        { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
+      );
+
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    // Click — scroll a la sección con Lenis
+    dotItems.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.target!;
+        const el = document.getElementById(id);
+        if (!el) return;
+        const lenis = (window as any).__lenis;
+        if (lenis) {
+          lenis.scrollTo(el, { offset: 0, duration: 1.4, easing: (t: number) => 1 - Math.pow(1 - t, 4) });
+        } else {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Activar el primero por defecto
+    if (dotItems[0]) setActive(dotItems[0].dataset.target!);
+  }
+
+  document.addEventListener('preloader-done', initNavDots, { once: true });
+</script>
