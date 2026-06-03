@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 — Jose González · Dev">
+  <div class="page-404">
+    <span class="num" aria-hidden="true">404</span>
+    <h1 class="title">Esta página<br/>no existe.</h1>
+    <p class="sub">Enlace roto o URL incorrecta.<br/>Lo que buscas está por aquí.</p>
+    <a href="/" class="btn-back">← Volver al inicio</a>
+  </div>
+</Layout>
+
+<style>
+  .page-404 {
+    min-height: 100dvh;
+    background: #1A1A1A;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(2rem, 8vw, 8rem) clamp(1.5rem, 8vw, 8rem);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num {
+    position: absolute;
+    top: 50%;
+    right: -0.05em;
+    transform: translateY(-50%);
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(12rem, 35vw, 36rem);
+    line-height: 1;
+    color: #F3F4F6;
+    opacity: 0.03;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .title {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 8vw, 8rem);
+    color: #F3F4F6;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+    position: relative;
+    z-index: 1;
+  }
+
+  .sub {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: #4B5563;
+    line-height: 1.7;
+    margin: 0 0 clamp(2.5rem, 4vw, 3.5rem);
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-back {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #FF5733;
+    text-decoration: none;
+    border: 1px solid rgba(255, 87, 51, 0.35);
+    padding: 0.85rem 1.5rem;
+    border-radius: 4px;
+    transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-back:hover {
+    background: rgba(255, 87, 51, 0.08);
+    border-color: #FF5733;
+    color: #F3F4F6;
+  }
+</style>

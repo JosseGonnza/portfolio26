@@ -1,0 +1,108 @@
+---
+---
+
+<div id="cursor-dot"  aria-hidden="true"></div>
+<div id="cursor-ring" aria-hidden="true"></div>
+
+<style>
+  /* Ocultar cursor nativo solo en dispositivos con puntero fino (mouse) */
+  @media (pointer: fine) {
+    :root { cursor: none; }
+    a, button, [role="button"], label, select, .proyecto-card, .tl-item, .dot-item {
+      cursor: none;
+    }
+  }
+
+  #cursor-dot,
+  #cursor-ring {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+
+  @media (pointer: fine) {
+    #cursor-dot {
+      display: block;
+      width: 6px;
+      height: 6px;
+      background: #FF5733;
+    }
+
+    #cursor-ring {
+      display: block;
+      width: 28px;
+      height: 28px;
+      border: 1.5px solid rgba(255, 87, 51, 0.6);
+      background: transparent;
+      transition: width 250ms ease, height 250ms ease,
+                  border-color 250ms ease, background 250ms ease,
+                  opacity 250ms ease;
+    }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+
+  if (window.matchMedia('(pointer: fine)').matches) {
+    const dot  = document.getElementById('cursor-dot')!;
+    const ring = document.getElementById('cursor-ring')!;
+
+    let mouseX = 0, mouseY = 0;
+    let ringX  = 0, ringY  = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      gsap.set(dot, { x: mouseX, y: mouseY });
+    });
+
+    // Ring con lerp suave
+    function tick() {
+      ringX += (mouseX - ringX) * 0.1;
+      ringY += (mouseY - ringY) * 0.1;
+      gsap.set(ring, { x: ringX, y: ringY });
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Hover en elementos interactivos
+    const interactives = 'a, button, [role="button"], .proyecto-card, .tl-item, .dot-item, .link-btn, .email-link';
+
+    document.addEventListener('mouseover', (e) => {
+      if ((e.target as Element).closest(interactives)) {
+        ring.style.width  = '44px';
+        ring.style.height = '44px';
+        ring.style.borderColor = '#FF5733';
+        ring.style.background  = 'rgba(255,87,51,0.08)';
+        dot.style.opacity = '0';
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if ((e.target as Element).closest(interactives)) {
+        ring.style.width  = '28px';
+        ring.style.height = '28px';
+        ring.style.borderColor = 'rgba(255,87,51,0.6)';
+        ring.style.background  = 'transparent';
+        dot.style.opacity = '1';
+      }
+    });
+
+    // Ocultar al salir de la ventana
+    document.addEventListener('mouseleave', () => {
+      dot.style.opacity  = '0';
+      ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      dot.style.opacity  = '1';
+      ring.style.opacity = '1';
+    });
+  }
+</script>
