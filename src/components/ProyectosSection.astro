@@ -20,10 +20,7 @@ const proyectos: Proyecto[] = [
     subtitulo: 'Mi empresa de desarrollo web',
     desc: 'Webs y cartas digitales para bares, sidrerías y restaurantes en Asturias. Modelo concierge: el cliente pide cambios por WhatsApp, yo los publico en menos de 24h.',
     stack: ['Astro', 'Tailwind', 'Cloudflare Pages', 'TypeScript'],
-    ctas: [
-      { label: 'Ver web ↗', href: 'https://jotagestudio.es', primary: true },
-      { label: 'Ver cliente ↗', href: 'https://cafe-extracto-web.pages.dev/', primary: false },
-    ],
+    ctas: [{ label: 'Ver web ↗', href: 'https://jotagestudio.es', primary: true }],
     rotation: -2.2,
     starred: false,
     img: '/img-jotagestudio.webp',
@@ -35,7 +32,10 @@ const proyectos: Proyecto[] = [
     subtitulo: 'El producto de JotaGe Studio',
     desc: 'Cartas digitales escaneables desde QR. Sin app, sin descarga. El cliente escanea y ve la carta en tiempo real. Dos clientes activos.',
     stack: ['Astro', 'Tailwind', 'Cloudflare Pages'],
-    ctas: [{ label: 'Ver demo ↗', href: 'https://cafe-extracto.pages.dev/', primary: true }],
+    ctas: [
+      { label: 'Ver carta ↗', href: 'https://cafe-extracto.pages.dev/', primary: true },
+      { label: 'Ver web cliente ↗', href: 'https://cafe-extracto-web.pages.dev/', primary: false },
+    ],
     rotation: 1.8,
     starred: false,
     img: '/img-jgmenu.webp',

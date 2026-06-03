@@ -298,9 +298,6 @@
 
 <script>
   import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
 
   function initContacto() {
     const eyebrow = document.querySelector('#contacto .sec-eyebrow') as HTMLElement;
@@ -309,25 +306,32 @@
     const links   = Array.from(document.querySelectorAll<HTMLElement>('.contacto-links .link-btn'));
     const nota    = document.querySelector('.contacto-nota') as HTMLElement;
 
-    gsap.set(eyebrow, { opacity: 0, y: 20 });
-    gsap.set(chars,   { opacity: 0, y: 90, rotation: -12 });
-    gsap.set(email,   { opacity: 0, x: -20 });
-    gsap.set(links,   { opacity: 0, y: 18 });
-    gsap.set(nota,    { opacity: 0, y: 12 });
+    gsap.set(eyebrow, { opacity: 0, y: 18 });
+    gsap.set(chars,   { opacity: 0, y: 70, rotation: -10 });
+    gsap.set(email,   { opacity: 0, x: -24 });
+    gsap.set(links,   { opacity: 0, y: 16 });
+    gsap.set(nota,    { opacity: 0, y: 10 });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#contacto',
-        start: 'top 72%',
-        toggleActions: 'play none none none',
+    const tl = gsap.timeline({ paused: true });
+
+    tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.7,  ease: 'expo.out' })
+      .to(chars,   { opacity: 1, y: 0, rotation: 0, duration: 0.85, stagger: 0.045, ease: 'expo.out' }, '-=0.35')
+      .to(email,   { opacity: 1, x: 0, duration: 0.9,  ease: 'expo.out' }, '-=0.4')
+      .to(links,   { opacity: 1, y: 0, duration: 0.6,  stagger: 0.1,  ease: 'power3.out' }, '-=0.5')
+      .to(nota,    { opacity: 1, y: 0, duration: 0.65, ease: 'power3.out' }, '-=0.3');
+
+    // IntersectionObserver — inmune al pin de #h-scene
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          tl.play();
+          observer.disconnect();
+        }
       },
-    });
+      { threshold: 0.15 }
+    );
 
-    tl.to(eyebrow, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' })
-      .to(chars,   { opacity: 1, y: 0, rotation: 0, duration: 0.65, stagger: 0.04, ease: 'power3.out' }, '-=0.2')
-      .to(email,   { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' }, '-=0.25')
-      .to(links,   { opacity: 1, y: 0, duration: 0.45, stagger: 0.08, ease: 'power2.out' }, '-=0.3')
-      .to(nota,    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.1');
+    observer.observe(document.getElementById('contacto')!);
   }
 
   document.addEventListener('preloader-done', initContacto, { once: true });

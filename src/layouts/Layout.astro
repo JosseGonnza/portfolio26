@@ -82,6 +82,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
         lenis.on('scroll', () => ScrollTrigger.update());
         gsap.ticker.add((time) => lenis.raf(time * 1000));
         gsap.ticker.lagSmoothing(0);
+
+        // Recalcular posiciones después de que todos los componentes
+        // hayan montado sus ScrollTriggers y el pin de #h-scene esté activo
+        setTimeout(() => ScrollTrigger.refresh(), 200);
       }, { once: true });
     </script>
   </body>

@@ -405,10 +405,10 @@ const hitos = [
     const items    = Array.from(document.querySelectorAll<HTMLElement>('.tl-item'));
 
     // ── Header ───────────────────────────────────────────────────
-    gsap.set(header, { opacity: 0, y: 40 });
+    gsap.set(header, { opacity: 0, y: 30 });
     gsap.to(header, {
-      opacity: 1, y: 0, duration: 0.7, ease: 'power3.out',
-      scrollTrigger: { trigger: '#trayectoria', start: 'top 75%', toggleActions: 'play none none none' },
+      opacity: 1, y: 0, duration: 1.1, ease: 'expo.out',
+      scrollTrigger: { trigger: '#trayectoria', start: 'top 78%', toggleActions: 'play none none none' },
     });
 
     // ── Línea que se dibuja hacia abajo ──────────────────────────
@@ -417,9 +417,9 @@ const hitos = [
       ease: 'none',
       scrollTrigger: {
         trigger: '.timeline',
-        start: 'top 60%',
-        end: 'bottom 60%',
-        scrub: 0.6,
+        start: 'top 55%',
+        end: 'bottom 65%',
+        scrub: 1.4,
       },
     });
 
@@ -429,15 +429,15 @@ const hitos = [
       const content = item.querySelector<HTMLElement>('.tl-content')!;
       const dot     = item.querySelector<HTMLElement>('.tl-dot')!;
 
-      gsap.set(content, { opacity: 0, x: isLeft ? -55 : 55 });
-      gsap.set(dot, { scale: 0 });
+      gsap.set(content, { opacity: 0, x: isLeft ? -38 : 38 });
+      gsap.set(dot, { scale: 0, opacity: 0 });
 
       const entryTl = gsap.timeline({
-        scrollTrigger: { trigger: item, start: 'top 80%', toggleActions: 'play none none none' },
+        scrollTrigger: { trigger: item, start: 'top 82%', toggleActions: 'play none none none' },
       });
       entryTl
-        .to(dot,     { scale: 1, duration: 0.35, ease: 'back.out(2)' })
-        .to(content, { opacity: 1, x: 0, duration: 0.55, ease: 'power3.out' }, '-=0.15');
+        .to(dot,     { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' })
+        .to(content, { opacity: 1, x: 0, duration: 0.85, ease: 'expo.out' }, '-=0.25');
     });
 
     // ── Hover: el dot rompe la barra y el item hace zoom ─────────
