@@ -16,6 +16,32 @@ const columns = [
     tags: ['Git', 'GitHub', 'IntelliJ IDEA', 'Docker Desktop', 'Postman', 'Notion', 'Linux'],
   },
 ] as const;
+
+const ICON_COLOR = '6B7280';
+const ICON_CDN   = 'https://cdn.simpleicons.org';
+const DEVICON    = 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons';
+
+// Java eliminado de Simple Icons por trademark — usa Devicon con filtro CSS
+const techIcons: Record<string, string> = {
+  'Java':            `${DEVICON}/java/java-original.svg`,
+  'Spring Boot':     `${ICON_CDN}/springboot/${ICON_COLOR}`,
+  'PostgreSQL':      `${ICON_CDN}/postgresql/${ICON_COLOR}`,
+  'Docker':          `${ICON_CDN}/docker/${ICON_COLOR}`,
+  'Docker Desktop':  `${ICON_CDN}/docker/${ICON_COLOR}`,
+  'Maven':           `${ICON_CDN}/apachemaven/${ICON_COLOR}`,
+  'JUnit':           `${ICON_CDN}/junit5/${ICON_COLOR}`,
+  'Astro':           `${ICON_CDN}/astro/${ICON_COLOR}`,
+  'Tailwind CSS v4': `${ICON_CDN}/tailwindcss/${ICON_COLOR}`,
+  'TypeScript':      `${ICON_CDN}/typescript/${ICON_COLOR}`,
+  'Cloudflare Pages':`${ICON_CDN}/cloudflare/${ICON_COLOR}`,
+  'GitHub Actions':  `${ICON_CDN}/githubactions/${ICON_COLOR}`,
+  'Git':             `${ICON_CDN}/git/${ICON_COLOR}`,
+  'GitHub':          `${ICON_CDN}/github/${ICON_COLOR}`,
+  'IntelliJ IDEA':   `${ICON_CDN}/intellijidea/${ICON_COLOR}`,
+  'Postman':         `${ICON_CDN}/postman/${ICON_COLOR}`,
+  'Notion':          `${ICON_CDN}/notion/${ICON_COLOR}`,
+  'Linux':           `${ICON_CDN}/linux/${ICON_COLOR}`,
+};
 ---
 
 <section id="stack">
@@ -43,12 +69,18 @@ const columns = [
             {col.note && <p class="col-note">{col.note}</p>}
           </div>
           <ul class="col-tags">
-            {col.tags.map((tag) => (
-              <li class="tag-item">
-                <span class="tag-dot" aria-hidden="true"></span>
-                {tag}
-              </li>
-            ))}
+            {col.tags.map((tag) => {
+              const iconUrl = techIcons[tag];
+              return (
+                <li class="tag-item">
+                  {iconUrl
+                    ? <img src={iconUrl} alt="" width="13" height="13" class="tag-icon" aria-hidden="true" loading="lazy" />
+                    : <span class="tag-dot" aria-hidden="true"></span>
+                  }
+                  {tag}
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}
@@ -225,6 +257,21 @@ const columns = [
 
   .tag-item:hover .tag-dot {
     background: #FF5733;
+  }
+
+  .tag-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    object-fit: contain;
+    opacity: 0.7;
+    filter: grayscale(1) brightness(1.4);
+    transition: opacity 200ms ease, filter 200ms ease;
+  }
+
+  .tag-item:hover .tag-icon {
+    opacity: 1;
+    filter: grayscale(0) brightness(1);
   }
 
   /* ── Nota final ──────────────────────────────────────────────── */

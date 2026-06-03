@@ -10,8 +10,8 @@ interface Props {
 
 const {
   title = "Jose González — Backend Developer",
-  description = "Desarrollador backend con empresa propia en producción. Java · Spring Boot · SQL · Docker. Disponible para prácticas en octubre 2026.",
-  ogImage = "https://dev.jotagestudio.es/og-image.png",
+  description = "Desarrollador backend con empresa propia en producción. Java · Spring Boot · PostgreSQL · Docker. Disponible para prácticas (FCT) en octubre 2026. Fundador de JotaGe Studio.",
+  ogImage = "https://dev.jotagestudio.es/og-image.webp",
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
@@ -26,7 +26,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="author" content="Jose González" />
+    <meta name="author" content="Jose Manuel González Quevedo" />
+    <meta name="keywords" content="backend developer, Java, Spring Boot, PostgreSQL, Docker, API REST, Astro, Tailwind, portfolio, prácticas FCT, DAW, Gijón, Asturias, JotaGe Studio" />
+    <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:type"        content="website" />
@@ -34,6 +36,10 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     <meta property="og:title"       content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image"       content={ogImage} />
+    <meta property="og:image:type"  content="image/webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt"   content="Jose González — Backend Developer Portfolio" />
     <meta property="og:locale"      content="es_ES" />
     <meta property="og:site_name"   content="Jose González · Dev" />
 
@@ -42,10 +48,9 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
     <meta name="twitter:title"       content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image"       content={ogImage} />
+    <meta name="twitter:image:alt"   content="Jose González — Backend Developer Portfolio" />
 
-    <!-- Favicon (placeholder — añadir cuando esté el diseño) -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
     <meta name="theme-color" content="#1A1A1A" />
   </head>
 
