@@ -1,4 +1,6 @@
 <div id="preloader" aria-hidden="true">
+  <img src="/preloader-portfolio.jpg" alt="" class="preloader-bg" aria-hidden="true" />
+  <div class="preloader-overlay" aria-hidden="true"></div>
   <div id="preloader-text">
     <div class="preloader-line" id="line-jose">
       <span class="letter">J</span><span class="letter">O</span><span class="letter">S</span><span class="letter">E</span>
@@ -22,6 +24,26 @@
     justify-content: center;
     overflow: hidden;
     cursor: pointer;
+  }
+
+  .preloader-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.18;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .preloader-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 30%, #1A1A1A 80%);
+    pointer-events: none;
+    z-index: 0;
   }
 
   #preloader-text {
@@ -202,6 +224,10 @@
     gsap.to(textEl, { rotateX: 0, rotateY: 0, duration: 0.2, ease: 'power2.out' });
 
     setTimeout(() => {
+      // La imagen desaparece junto con las letras, antes de que suba la cortina
+      const bg = document.querySelector<HTMLElement>('.preloader-bg');
+      if (bg) gsap.to(bg, { opacity: 0, duration: 0.3, ease: 'power2.in' });
+
       letters.forEach((letter) => {
         const rect = letter.getBoundingClientRect();
         spawnBubbles(rect.left + rect.width / 2, rect.top + rect.height / 2);

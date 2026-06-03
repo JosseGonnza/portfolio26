@@ -218,9 +218,10 @@ import Footer from '../components/Footer.astro';
     const track = document.getElementById('h-scene-track') as HTMLElement;
     const cards = Array.from(track.querySelectorAll<HTMLElement>('.proyecto-card'));
 
-    // GSAP gestiona los transforms desde el inicio
+    // Estados iniciales — cards ocultas, rotación exagerada
     cards.forEach(card => {
-      gsap.set(card, { rotation: parseFloat(card.dataset.rotation ?? '0'), scale: 1, x: 0 });
+      const rot = parseFloat(card.dataset.rotation ?? '0');
+      gsap.set(card, { rotation: rot * 1.8, scale: 1, x: 0, opacity: 0, y: 55 });
     });
 
     // ── Hover ────────────────────────────────────────────────────
@@ -254,7 +255,7 @@ import Footer from '../components/Footer.astro';
     });
 
     // ── ScrollTrigger horizontal ─────────────────────────────────
-    gsap.to(track, {
+    const hTween = gsap.to(track, {
       x: () => -(track.scrollWidth - window.innerWidth),
       ease: 'none',
       scrollTrigger: {
@@ -265,6 +266,45 @@ import Footer from '../components/Footer.astro';
         end: () => `+=${track.scrollWidth - window.innerWidth}`,
         invalidateOnRefresh: true,
       },
+    });
+    // ── Panel título Proyectos ────────────────────────────────────
+    const titlePanel = track.querySelector<HTMLElement>('.title-panel')!;
+    const tEyebrow   = titlePanel.querySelector<HTMLElement>('.sec-eyebrow')!;
+    const tH2lo      = titlePanel.querySelector<HTMLElement>('.h2-lo')!;
+    const tH2que     = titlePanel.querySelector<HTMLElement>('.h2-que')!;
+    const tH2sub     = titlePanel.querySelector<HTMLElement>('.h2-sub')!;
+    const tHint      = titlePanel.querySelector<HTMLElement>('.title-hint')!;
+
+    gsap.set([tEyebrow, tH2lo, tH2que, tH2sub, tHint], { opacity: 0, y: 35 });
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: titlePanel,
+        containerAnimation: hTween,
+        start: 'left 90%',
+        toggleActions: 'play none none none',
+      },
+    })
+      .to(tEyebrow, { opacity: 1, y: 0, duration: 0.45, ease: 'power3.out' })
+      .to(tH2lo,    { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, '-=0.2')
+      .to(tH2que,   { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, '-=0.38')
+      .to(tH2sub,   { opacity: 1, y: 0, duration: 0.5,  ease: 'power3.out' }, '-=0.38')
+      .to(tHint,    { opacity: 1, y: 0, duration: 0.4,  ease: 'power2.out' }, '-=0.2');
+
+    // ── Cards — entran cuando aparecen en el viewport horizontal ──
+    cards.forEach(card => {
+      const rot = parseFloat(card.dataset.rotation ?? '0');
+      gsap.to(card, {
+        opacity: 1, y: 0, rotation: rot,
+        duration: 0.65,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: card,
+          containerAnimation: hTween,
+          start: 'left 88%',
+          toggleActions: 'play none none none',
+        },
+      });
     });
 
     // ── Modal ────────────────────────────────────────────────────
