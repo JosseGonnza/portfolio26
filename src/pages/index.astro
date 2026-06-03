@@ -63,6 +63,17 @@ import Footer from '../components/Footer.astro';
     height: 100dvh;
   }
 
+  @media (max-width: 768px) {
+    #h-scene {
+      overflow: visible;
+    }
+
+    #h-scene-track {
+      flex-direction: column;
+      height: auto;
+    }
+  }
+
   /* ── Modal ───────────────────────────────────────────────────── */
   #card-modal {
     position: fixed;
@@ -218,11 +229,15 @@ import Footer from '../components/Footer.astro';
     const track = document.getElementById('h-scene-track') as HTMLElement;
     const cards = Array.from(track.querySelectorAll<HTMLElement>('.proyecto-card'));
 
-    // Estados iniciales — cards ocultas, rotación exagerada
-    cards.forEach(card => {
-      const rot = parseFloat(card.dataset.rotation ?? '0');
-      gsap.set(card, { rotation: rot * 1.8, scale: 1, x: 0, opacity: 0, y: 55 });
-    });
+    const isMobile = window.innerWidth <= 768;
+
+    // Desktop: estado inicial oculto con rotación exagerada
+    if (!isMobile) {
+      cards.forEach(card => {
+        const rot = parseFloat(card.dataset.rotation ?? '0');
+        gsap.set(card, { rotation: rot * 1.8, scale: 1, x: 0, opacity: 0, y: 55 });
+      });
+    }
 
     // ── Hover ────────────────────────────────────────────────────
     const SCALE = 1.22;
@@ -253,6 +268,35 @@ import Footer from '../components/Footer.astro';
         });
       });
     });
+
+    if (isMobile) {
+      // Móvil: título y cards entran desde abajo con IntersectionObserver
+      const titlePanel = track.querySelector<HTMLElement>('.title-panel')!;
+      const tH2lo  = titlePanel.querySelector<HTMLElement>('.h2-lo')!;
+      const tH2que = titlePanel.querySelector<HTMLElement>('.h2-que')!;
+      const tH2sub = titlePanel.querySelector<HTMLElement>('.h2-sub')!;
+
+      gsap.set([tH2lo, tH2que, tH2sub], { opacity: 0, y: 30 });
+      new IntersectionObserver((entries, obs) => {
+        if (!entries[0].isIntersecting) return;
+        gsap.to([tH2lo, tH2que, tH2sub], { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'expo.out' });
+        obs.disconnect();
+      }, { threshold: 0.15 }).observe(titlePanel);
+
+      cards.forEach(card => {
+        // Partimos de invisible sin tocar transforms (el CSS ya pone rotation:0 en mobile)
+        card.style.opacity = '0';
+        new IntersectionObserver((entries, obs) => {
+          if (!entries[0].isIntersecting) return;
+          gsap.fromTo(card,
+            { opacity: 0, y: 35 },
+            { opacity: 1, y: 0, duration: 0.7, ease: 'expo.out', clearProps: 'transform' }
+          );
+          obs.disconnect();
+        }, { threshold: 0.1 }).observe(card);
+      });
+      return;
+    }
 
     // ── ScrollTrigger horizontal ─────────────────────────────────
     const hTween = gsap.to(track, {

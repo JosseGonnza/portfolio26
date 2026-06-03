@@ -404,26 +404,23 @@ const hitos = [
     const axisfill = document.querySelector('.tl-axis-fill') as HTMLElement;
     const items    = Array.from(document.querySelectorAll<HTMLElement>('.tl-item'));
 
-    // ── Header ───────────────────────────────────────────────────
+    // ── Header — IntersectionObserver ────────────────────────────
     gsap.set(header, { opacity: 0, y: 30 });
-    gsap.to(header, {
-      opacity: 1, y: 0, duration: 1.1, ease: 'expo.out',
-      scrollTrigger: { trigger: '#trayectoria', start: 'top 78%', toggleActions: 'play none none none' },
-    });
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting) return;
+      gsap.to(header, { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out' });
+      obs.disconnect();
+    }, { threshold: 0.2 }).observe(header);
 
-    // ── Línea que se dibuja hacia abajo ──────────────────────────
-    gsap.to(axisfill, {
-      scaleY: 1,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.timeline',
-        start: 'top 55%',
-        end: 'bottom 65%',
-        scrub: 1.4,
-      },
-    });
+    // ── Línea — se dibuja cuando la sección entra ─────────────────
+    gsap.set(axisfill, { scaleY: 0 });
+    new IntersectionObserver((entries, obs) => {
+      if (!entries[0].isIntersecting) return;
+      gsap.to(axisfill, { scaleY: 1, duration: 2.5, ease: 'power2.inOut' });
+      obs.disconnect();
+    }, { threshold: 0.1 }).observe(document.querySelector('.timeline')!);
 
-    // ── Hitos — entran desde su lado ────────────────────────────
+    // ── Hitos — IntersectionObserver por item ─────────────────────
     items.forEach((item) => {
       const isLeft  = item.classList.contains('tl-left');
       const content = item.querySelector<HTMLElement>('.tl-content')!;
@@ -432,12 +429,13 @@ const hitos = [
       gsap.set(content, { opacity: 0, x: isLeft ? -38 : 38 });
       gsap.set(dot, { scale: 0, opacity: 0 });
 
-      const entryTl = gsap.timeline({
-        scrollTrigger: { trigger: item, start: 'top 82%', toggleActions: 'play none none none' },
-      });
-      entryTl
-        .to(dot,     { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' })
-        .to(content, { opacity: 1, x: 0, duration: 0.85, ease: 'expo.out' }, '-=0.25');
+      new IntersectionObserver((entries, obs) => {
+        if (!entries[0].isIntersecting) return;
+        const tl = gsap.timeline();
+        tl.to(dot,     { scale: 1, opacity: 1, duration: 0.5, ease: 'back.out(1.4)' })
+          .to(content, { opacity: 1, x: 0, duration: 0.85, ease: 'expo.out' }, '-=0.25');
+        obs.disconnect();
+      }, { threshold: 0.25 }).observe(item);
     });
 
     // ── Hover: el dot rompe la barra y el item hace zoom ─────────

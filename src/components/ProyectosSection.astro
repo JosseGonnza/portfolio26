@@ -490,28 +490,34 @@ const estadoConfig = {
   @media (max-width: 768px) {
     #proyectos {
       height: auto;
-      min-height: 100dvh;
+      overflow: visible;
     }
 
     .proyectos-track {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      align-items: flex-start;
-      padding: 2rem 1.5rem;
-      scrollbar-width: none;
-    }
-
-    .proyectos-track::-webkit-scrollbar { display: none; }
-
-    .title-panel {
-      width: 90vw;
+      flex-direction: column;
       height: auto;
-      min-height: 80dvh;
-      justify-content: flex-end;
-      padding-bottom: 3rem;
+      padding: clamp(4rem, 8vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+      gap: 1.5rem;
+      overflow: visible;
     }
 
-    .proyecto-card { width: 82vw; }
+    /* Panel título ocupa todo el ancho como cabecera */
+    .title-panel {
+      width: 100%;
+      height: auto;
+      min-height: unset;
+      justify-content: flex-start;
+      padding: 0 0 2rem;
+    }
+
+    .title-hint { display: none; }
+
+    /* Cards sin rotación en móvil, ancho completo */
+    .proyecto-card {
+      width: 100%;
+    }
+
+    .card-img-wrap { height: 180px; }
   }
 </style>
 
