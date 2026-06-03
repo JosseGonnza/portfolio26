@@ -76,15 +76,27 @@
 <script>
   import { gsap } from 'gsap';
 
+  // Evitar que el browser restaure scroll de visitas anteriores
+  history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+
   const preloader = document.getElementById('preloader') as HTMLElement;
   const textEl    = document.getElementById('preloader-text') as HTMLElement;
   const letters   = document.querySelectorAll<HTMLElement>('.letter');
   const curtain   = document.getElementById('preloader-curtain') as HTMLElement;
   const hint      = document.getElementById('preloader-hint') as HTMLElement;
 
-  // Evitar que el browser restaure scroll de visitas anteriores
-  history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
+  // Si ya se vio en esta sesión, saltar el preloader
+  if (sessionStorage.getItem('preloader_shown')) {
+    preloader.remove();
+    // Doble rAF: asegura que todos los scripts han registrado sus listeners
+    // antes de disparar el evento (el skip síncrono los saltaba)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.dispatchEvent(new CustomEvent('preloader-done'));
+      });
+    });
+  } else {
 
   document.body.style.overflow = 'hidden';
 
@@ -216,6 +228,7 @@
             preloader.remove();
             document.body.style.overflow = '';
             window.scrollTo(0, 0);
+            sessionStorage.setItem('preloader_shown', '1');
             document.dispatchEvent(new CustomEvent('preloader-done'));
           }
         });
@@ -223,4 +236,5 @@
   }
 
   preloader.addEventListener('click', exitPreloader);
+  } // cierre else
 </script>

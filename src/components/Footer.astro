@@ -1,0 +1,109 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer id="footer">
+  <div class="footer-inner">
+
+    <p class="footer-copy">
+      <span class="footer-name">Jose González</span>
+      <span class="footer-sep" aria-hidden="true">·</span>
+      <span class="footer-year">© {year}</span>
+    </p>
+
+    <nav class="footer-links" aria-label="Redes sociales">
+      <a href="https://linkedin.com/in/jossegonnza" target="_blank" rel="noopener noreferrer" class="footer-link">
+        LinkedIn
+      </a>
+      <a href="https://github.com/JosseGonnza" target="_blank" rel="noopener noreferrer" class="footer-link">
+        GitHub
+      </a>
+      <a href="https://jotagestudio.es" target="_blank" rel="noopener noreferrer" class="footer-link footer-link--studio">
+        JotaGe Studio
+      </a>
+    </nav>
+
+  </div>
+</footer>
+
+<style>
+  #footer {
+    background: #111111;
+    border-top: 1px solid #2E2E2E;
+    padding: 1.5rem clamp(1.5rem, 6vw, 6rem);
+  }
+
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-copy {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+  }
+
+  .footer-name {
+    font-family: 'Syncopate', sans-serif;
+    font-weight: 700;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #F3F4F6;
+  }
+
+  .footer-sep {
+    color: #2E2E2E;
+    font-size: 0.7rem;
+  }
+
+  .footer-year {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    color: #4B5563;
+  }
+
+  .footer-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .footer-link {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    color: #4B5563;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 200ms ease;
+  }
+
+  .footer-link:hover {
+    color: #9CA3AF;
+  }
+
+  .footer-link--studio {
+    color: #FF5733;
+    opacity: 0.6;
+  }
+
+  .footer-link--studio:hover {
+    color: #FF5733;
+    opacity: 1;
+  }
+
+  @media (max-width: 500px) {
+    .footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+</style>
